@@ -12,14 +12,31 @@ const cloudinary = new Cloudinary({
   },
 });
 
+const BACKGROUNDS = [
+  'the-office_xvxmat',
+  'moon-earth_rvkn3k',
+  'this-is-fine_zfmbra',
+  'mario_bmvvqb'
+];
+
 export default function Home() {
   const [imageSrc, setImageSrc] = useState();
   const [uploadData, setUploadData] = useState();
 
   const [transparentData, setTransparentData] = useState();
+  const [background, setBackground] = useState();
 
   const mainImage = uploadData && cloudinary.image(uploadData.public_id).toURL();
   const transparentImage = transparentData && cloudinary.image(transparentData.public_id).toURL()
+  let transformedImage;
+
+  if ( transparentData && background ) {
+    transformedImage = cloudinary.image(transparentData.public_id);
+
+    transformedImage.addTransformation(`u_${background},c_fill,w_1.0,h_1.0,fl_relative`);
+
+    transformedImage = transformedImage.toURL();
+  }
 
   useEffect(() => {
     if ( !uploadData ) return;
@@ -105,12 +122,47 @@ export default function Home() {
             <input type="file" name="file" />
           </p>
 
+          {transparentImage && (
+            <>
+              <h3>Backgrounds</h3>
+              <ul style={{
+                display: 'flex',
+                justifyContent: 'center',
+                listStyle: 'none',
+                margin: 0,
+                padding: 0,
+              }}>
+                {BACKGROUNDS.map(backgroundId => {
+                  return (
+                    <li key={backgroundId} style={{ margin: '0 .5em' }}>
+                      <button
+                        style={{
+                          padding: 0,
+                          cursor: 'pointer',
+                          border: background === backgroundId ? 'solid 3px blueviolet' : 0
+                        }}
+                        onClick={() => setBackground(backgroundId)}
+                      >
+                        <img
+                          style={{ display: 'block' }}
+                          width={100}
+                          src={cloudinary.image(backgroundId).resize('w_200').toURL()}
+                          alt="backgroundId"
+                        />
+                      </button>
+                    </li>
+                  )
+                })}
+              </ul>
+            </>
+          )}
+
           { imageSrc && !uploadData && (
             <img src={imageSrc} />
           )}
 
           { mainImage && (
-            <img src={transparentImage || mainImage} />
+            <img src={transformedImage || transparentImage || mainImage} />
           )}
 
           {imageSrc && !uploadData && (
