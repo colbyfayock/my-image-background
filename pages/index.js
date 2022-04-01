@@ -20,6 +20,8 @@ const BACKGROUNDS = [
 ];
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const [imageSrc, setImageSrc] = useState();
   const [uploadData, setUploadData] = useState();
 
@@ -40,6 +42,9 @@ export default function Home() {
 
   useEffect(() => {
     if ( !uploadData ) return;
+
+    setIsLoading(true);
+
     (async function run() {
       const results = await fetch('/api/upload', {
         method: 'POST',
@@ -54,6 +59,8 @@ export default function Home() {
       const transparentResult = await checkStatus();
 
       setTransparentData(transparentResult);
+
+      setIsLoading(false);
 
       async function checkStatus() {
         const resource = await fetch(`/api/resource/?publicId=${results.public_id}`).then(r => r.json());
@@ -90,6 +97,8 @@ export default function Home() {
   async function handleOnSubmit(event) {
     event.preventDefault();
 
+    setIsLoading(true);
+
     const results = await fetch('/api/upload', {
       method: 'POST',
       body: JSON.stringify({
@@ -98,6 +107,8 @@ export default function Home() {
     }).then(r => r.json());
 
     setUploadData(results);
+
+    setIsLoading(false);
   }
 
   return (
@@ -114,8 +125,20 @@ export default function Home() {
         </h1>
 
         <p className={styles.description}>
-          Upload your image then choose your background!
+
+
+
+          {isLoading && !mainImage && <>Uploading image...</>}
+
+          {isLoading && mainImage && !transparentImage && <>Removing background...</>}
+
+          {!isLoading && !mainImage && <>Upload your image then choose your background!</>}
+
+          {!isLoading && transparentImage && !background && <>Select your background.</> }
+
+          {!isLoading && transformedImage && <>Delivering your new image.</> }
         </p>
+
         <div className={styles.content}>
           <div className={styles.image}>
             { imageSrc && !uploadData && (
