@@ -1,9 +1,15 @@
-# Demo Image Upload Starter
+# Removing & Changing an Image's Background using Cloudinary & Next.js Serverless Functions
 
-## ⚡️ Quick Start
+Demo for tutorial [Change a Background with Cloudinary & Next.js](https://mediajams.dev/post/removing-and-changing-an-image's-background-with-cloudinary-using-next.js-serverless-functions)
 
-```bash
-yarn create next-app -e https://github.com/colbyfayock/demo-image-upload-starter
-# or
-npx create-next-app -e https://github.com/colbyfayock/demo-image-upload-starter
-```
+🚀 See Demo: https://my-image-background.netlify.app/
+
+📝 Article: https://mediajams.dev/post/removing-and-changing-an-image's-background-with-cloudinary-using-next.js-serverless-functions
+
+## More tutorials and walkthroughs
+
+🐦 [Follow me on Twitter](https://twitter.com/colbyfayock)
+
+📺 [Subscribe on YouTube](https://www.youtube.com/colbyfayock)
+
+✉️ [Sign Up for My Newsletter](https://colbyfayock.com/newsletter)
