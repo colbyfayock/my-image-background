@@ -29,6 +29,15 @@ export default function Home() {
 
   async function handleOnSubmit(event) {
     event.preventDefault();
+
+    const results = await fetch('/api/upload', {
+      method: 'POST',
+      body: JSON.stringify({
+        image: imageSrc
+      })
+    }).then(r => r.json());
+
+    setUploadData(results);
   }
 
   return (
@@ -52,9 +61,15 @@ export default function Home() {
           <p>
             <input type="file" name="file" />
           </p>
-          
-          <img src={imageSrc} />
-          
+
+          { imageSrc && !uploadData && (
+            <img src={imageSrc} />
+          )}
+
+          { uploadData && (
+            <img src={uploadData.secure_url} />
+          )}
+
           {imageSrc && !uploadData && (
             <p>
               <button>Upload Files</button>
