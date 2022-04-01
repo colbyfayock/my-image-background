@@ -1,12 +1,25 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head'
+import { Cloudinary } from '@cloudinary/url-gen';
 import styles from '../styles/Home.module.scss'
+
+const cloudinary = new Cloudinary({
+  cloud: {
+    cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  },
+  url: {
+    secure: true,
+  },
+});
 
 export default function Home() {
   const [imageSrc, setImageSrc] = useState();
   const [uploadData, setUploadData] = useState();
 
   const [transparentData, setTransparentData] = useState();
+
+  const mainImage = uploadData && cloudinary.image(uploadData.public_id).toURL();
+  const transparentImage = transparentData && cloudinary.image(transparentData.public_id).toURL()
 
   useEffect(() => {
     if ( !uploadData ) return;
@@ -96,8 +109,8 @@ export default function Home() {
             <img src={imageSrc} />
           )}
 
-          { uploadData && (
-            <img src={transparentData?.secure_url || uploadData.secure_url} />
+          { mainImage && (
+            <img src={transparentImage || mainImage} />
           )}
 
           {imageSrc && !uploadData && (
