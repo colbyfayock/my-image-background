@@ -1,10 +1,40 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Head from 'next/head'
 import styles from '../styles/Home.module.scss'
 
 export default function Home() {
   const [imageSrc, setImageSrc] = useState();
   const [uploadData, setUploadData] = useState();
+
+  const [transparentData, setTransparentData] = useState();
+
+  useEffect(() => {
+    if ( !uploadData ) return;
+    (async function run() {
+      const results = await fetch('/api/upload', {
+        method: 'POST',
+        body: JSON.stringify({
+          image: uploadData.secure_url,
+          options: {
+            background_removal: 'cloudinary_ai'
+          }
+        })
+      }).then(r => r.json());
+
+      const transparentResult = await checkStatus();
+
+      setTransparentData(transparentResult);
+
+      async function checkStatus() {
+        const resource = await fetch(`/api/resource/?publicId=${results.public_id}`).then(r => r.json());
+        if (resource.info.background_removal.cloudinary_ai.status === 'pending') {
+          await new Promise((resolve) => setTimeout(resolve, 100));
+          return await checkStatus();
+        }
+        return resource;
+      }
+    })();
+  },[uploadData, setTransparentData]);
 
   /**
    * handleOnChange
@@ -67,7 +97,7 @@ export default function Home() {
           )}
 
           { uploadData && (
-            <img src={uploadData.secure_url} />
+            <img src={transparentData?.secure_url || uploadData.secure_url} />
           )}
 
           {imageSrc && !uploadData && (
@@ -78,6 +108,14 @@ export default function Home() {
 
           {uploadData && (
             <code><pre>{JSON.stringify(uploadData, null, 2)}</pre></code>
+          )}
+
+          { uploadData && !transparentData && (
+            <code><pre>Loading...</pre></code>
+          )}
+
+          {transparentData && (
+            <code><pre>{JSON.stringify(transparentData, null, 2)}</pre></code>
           )}
         </form>
       </main>
