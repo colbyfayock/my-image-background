@@ -110,83 +110,73 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Image Uploader
+          Background Image Changer
         </h1>
 
         <p className={styles.description}>
-          Upload your image to Cloudinary!
+          Upload your image then choose your background!
         </p>
+        <div className={styles.content}>
+          <div className={styles.image}>
+            { imageSrc && !uploadData && (
+              <img src={imageSrc} />
+            )}
 
-        <form className={styles.form} method="post" onChange={handleOnChange} onSubmit={handleOnSubmit}>
-          <p>
-            <input type="file" name="file" />
-          </p>
-
-          {transparentImage && (
-            <>
-              <h3>Backgrounds</h3>
-              <ul style={{
-                display: 'flex',
-                justifyContent: 'center',
-                listStyle: 'none',
-                margin: 0,
-                padding: 0,
-              }}>
-                {BACKGROUNDS.map(backgroundId => {
-                  return (
-                    <li key={backgroundId} style={{ margin: '0 .5em' }}>
-                      <button
-                        style={{
-                          padding: 0,
-                          cursor: 'pointer',
-                          border: background === backgroundId ? 'solid 3px blueviolet' : 0
-                        }}
-                        onClick={() => setBackground(backgroundId)}
-                      >
-                        <img
-                          style={{ display: 'block' }}
-                          width={100}
-                          src={cloudinary.image(backgroundId).resize('w_200').toURL()}
-                          alt="backgroundId"
-                        />
-                      </button>
-                    </li>
-                  )
-                })}
-              </ul>
-            </>
-          )}
-
-          { imageSrc && !uploadData && (
-            <img src={imageSrc} />
-          )}
-
-          { mainImage && (
-            <img src={transformedImage || transparentImage || mainImage} />
-          )}
-
-          {imageSrc && !uploadData && (
+            { mainImage && (
+              <img src={transformedImage || transparentImage || mainImage} />
+            )}
+          </div>
+          <form className={styles.form} method="post" onChange={handleOnChange} onSubmit={handleOnSubmit}>
             <p>
-              <button>Upload Files</button>
+              <input type="file" name="file" />
             </p>
-          )}
 
-          {uploadData && (
-            <code><pre>{JSON.stringify(uploadData, null, 2)}</pre></code>
-          )}
+            {transparentImage && (
+              <>
+                <h3>Backgrounds</h3>
+                <ul style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  listStyle: 'none',
+                  margin: 0,
+                  padding: 0,
+                }}>
+                  {BACKGROUNDS.map(backgroundId => {
+                    return (
+                      <li key={backgroundId} style={{ margin: '0 .5em' }}>
+                        <button
+                          style={{
+                            padding: 0,
+                            cursor: 'pointer',
+                            border: background === backgroundId ? 'solid 3px blueviolet' : 0
+                          }}
+                          onClick={() => setBackground(backgroundId)}
+                        >
+                          <img
+                            style={{ display: 'block' }}
+                            width={100}
+                            src={cloudinary.image(backgroundId).resize('w_200').toURL()}
+                            alt="backgroundId"
+                          />
+                        </button>
+                      </li>
+                    )
+                  })}
+                </ul>
+              </>
+            )}
 
-          { uploadData && !transparentData && (
-            <code><pre>Loading...</pre></code>
-          )}
-
-          {transparentData && (
-            <code><pre>{JSON.stringify(transparentData, null, 2)}</pre></code>
-          )}
-        </form>
+            {imageSrc && !uploadData && (
+              <p>
+                <button>Upload Files</button>
+              </p>
+            )}
+          </form>
+        </div>
       </main>
 
       <footer className={styles.footer}>
-        <p>Find the tutorial on <a href="https://spacejelly.dev/">spacejelly.dev</a>!</p>
+        <p>Find the tutorial on <a href="https://mediajams.dev/">mediajams.dev</a>!</p>
       </footer>
     </div>
   )

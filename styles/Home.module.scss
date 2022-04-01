@@ -28,6 +28,16 @@
   font-size: 1.5rem;
 }
 
+.content {
+  display: flex;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.image {
+  margin-right: 2em;
+}
+
 .form {
 
   [type="file"] {
@@ -50,6 +60,15 @@
     text-align: left;
   }
 
+}
+
+.response {
+  max-width: 800px;
+  margin: 0 auto;
+  overflow: scroll;
+  text-align: left;
+  background-color: #eee;
+  padding: 1em;
 }
 
 .footer {
