@@ -10,7 +10,13 @@ cloudinary.config({
 export default async function handler(req, res) {
   const { image, options = {} } = JSON.parse(req.body);
 
-  const results = await cloudinary.uploader.upload(image, options);
-
-  res.status(200).json(results);
+  try {
+    const results = await cloudinary.uploader.upload(image, options);
+    return res.status(200).json(results);
+  } catch(e) {
+    console.log('Failed to upload to Cloudinary', e);
+    return res.status(500).json({
+      message: 'Failed to upload image',
+    });
+  }
 }
