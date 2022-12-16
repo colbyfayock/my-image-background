@@ -13,10 +13,10 @@ const cloudinary = new Cloudinary({
 });
 
 const BACKGROUNDS = [
-  'the-office_xvxmat',
-  'moon-earth_rvkn3k',
-  'this-is-fine_zfmbra',
-  'mario_bmvvqb'
+  'my-image-background-assets/the-office',
+  'my-image-background-assets/moon-earth',
+  'my-image-background-assets/this-is-fine',
+  'my-image-background-assets/mario'
 ];
 
 export default function Home() {
@@ -35,7 +35,7 @@ export default function Home() {
   if ( transparentData && background ) {
     transformedImage = cloudinary.image(transparentData.public_id);
 
-    transformedImage.addTransformation(`u_${background},c_fill,w_1.0,h_1.0,fl_relative`);
+    transformedImage.addTransformation(`u_${background.replace('/', ':')},c_fill,w_1.0,h_1.0,fl_relative`);
 
     transformedImage = transformedImage.toURL();
   }

@@ -11,7 +11,11 @@ export default async function handler(req, res) {
   const { image, options = {} } = JSON.parse(req.body);
 
   try {
-    const results = await cloudinary.uploader.upload(image, options);
+    const results = await cloudinary.uploader.upload(image, {
+      ...options,
+      folder: 'my-image-background',
+      upload_preset: 'require-moderation'
+    });
     return res.status(200).json(results);
   } catch(e) {
     console.log('Failed to upload to Cloudinary', e);
