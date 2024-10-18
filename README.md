@@ -1,10 +1,8 @@
 # Removing & Changing an Image's Background using Cloudinary & Next.js Serverless Functions
 
-Demo for tutorial [Change a Background with Cloudinary & Next.js](https://mediajams.dev/post/removing-and-changing-an-image's-background-with-cloudinary-using-next.js-serverless-functions)
+Demo for tutorial [Change a Background with Cloudinary & Next.js](https://cloudinary.com/blog/image-showcase-next-cloudinary-library-next-js-14)
 
-🚀 See Demo: https://my-image-background.netlify.app/
-
-📝 Article: https://mediajams.dev/post/removing-and-changing-an-image's-background-with-cloudinary-using-next.js-serverless-functions
+📝 Article: https://cloudinary.com/blog/image-showcase-next-cloudinary-library-next-js-14
 
 ## More tutorials and walkthroughs
 
